@@ -14,8 +14,8 @@ const signupSchema = (req, res, next) => {
       .pattern(/^[0-9]+$/)
       .required()
       .label("Phone Number"),
-    password: Joi.string().min(8).required().label("Password"), // Add a minimum length to the password for security
-    avatar: Joi.string().uri(), // Validate that the avatar is a URI
+    tag: Joi.array().items(Joi.string().required).required().label("tag"),
+    source: Joi.string().valid("api", "others"),
   });
   validateRequest(req, res, next, schema, "body");
 };
