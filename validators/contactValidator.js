@@ -1,6 +1,6 @@
 const Joi = require("joi");
 const { validateRequest } = require("../helpers/validation.helper");
-const signupSchema = (req, res, next) => {
+const contactSchema = (req, res, next) => {
   const schema = Joi.object({
     name: Joi.string().min(3).max(30).required().label("Name"),
     phoneNumber: Joi.string()
@@ -21,5 +21,5 @@ const signupSchema = (req, res, next) => {
 };
 
 module.exports = {
-  signupSchema,
+  contactSchema,
 };

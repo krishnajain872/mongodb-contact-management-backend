@@ -1,10 +1,13 @@
 var express = require("express");
-
-// const c = require("../controllers/contactController.js");
-const { handleFileUpload } = require("../middlewares.js/fileUploadHandler.js");
-
+const contactController = require("../controllers/contactController.js");
+const generic_response = require("../helpers/commonHelpers.js");
 var router = express.Router();
 
-router.route("/").post(handleFileUpload,);
+router
+  .route("/")
+  .post(contactController.createContact, generic_response.responseHelper);
+router
+  .route("/")
+  .get(contactController.getContact, generic_response.responseHelper);
 
 module.exports = router;

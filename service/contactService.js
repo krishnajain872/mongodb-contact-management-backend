@@ -1,17 +1,26 @@
+var csv = require("csvtojson");
+const Contact = require("../models/Contact");
+
 const createContact = async (payload) => {
-  const userData = await User.findByPk(response.data, {
-    attributes: ["first_name", "last_name", "id", "mobile", "email"],
-  });
-  if (!userData) {
-    const error = new Error("User not found");
-    error.statusCode = 404;
+  try {
+    const data = await Contact.insertMany(army);
+    if (data) return true;
+  } catch (error) {
     throw error;
   }
-  userData.status = "verified";
-  await userData.save();
-  return userData.dataValues;
+};
+const getContact = async (payload) => {
+  const contact = await Contact.find()
+    .limit(payload.limit * 1)
+    .skip((payload.page - 1) * payload.limit)
+    .exec();
+  // const count = await Contact.count();
+  return {
+    contact,
+  };
 };
 
 module.exports = {
   createContact,
+  getContact,
 };
