@@ -13,7 +13,6 @@ const createContact = async (req, res, next) => {
 
     // Use the buffer from req.file instead of the entire req.file object
     const jsonObj = await csv().fromString(req.file.buffer.toString("utf8"));
-    // console.log(jsonObj);
     const contacts = jsonObj.map((item) => ({
       name: item["name"],
       phoneNumber: item["phoneNumber"],
