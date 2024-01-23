@@ -5,24 +5,34 @@ const { errorHelper } = require("../helpers/commonHelpers");
 
 const createContact = async (req, res, next) => {
   try {
-    const jsonObj = await csv().fromFile(req.file.path);
-    const army = jsonObj.map((item) => ({
+    console.log("POST API CALLED");
+
+    if (!req.file) {
+      return res.status(400).json({ message: "CSV file is required." });
+    }
+
+    // Use the buffer from req.file instead of the entire req.file object
+    const jsonObj = await csv().fromString(req.file.buffer.toString("utf8"));
+    // console.log(jsonObj);
+    const contacts = jsonObj.map((item) => ({
       name: item["name"],
       phoneNumber: item["phoneNumber"],
       tag: item["tag"],
       source: item["source"],
     }));
-    console.log(army);
-    await contactService.createContact(army);
+    const data = await contactService.createContact(contacts);
+    res.data = data;
     next();
   } catch (error) {
+    console.log("THIS IS ERROR1", error);
     res.status(500).send({
       message: "Failure",
       error: error.message,
     });
   }
 };
-// create contact
+
+// get contact
 const getContact = async (req, res, next) => {
   try {
     const { page = 1, limit = 10 } = req.query;
